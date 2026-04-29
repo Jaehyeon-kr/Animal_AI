@@ -8,7 +8,7 @@
 
 | 🐻 bear | 🐱 cat | 🐶 dog | 🦊 fox |
 |:---:|:---:|:---:|:---:|
-| <img src="./img_src/animal_data/cropped/bear/000001.jpg" width="140"/> | <img src="./img_src/animal_data/cropped/cat/000001.jpg" width="140"/> | <img src="./img_src/animal_data/cropped/dog/000001.jpg" width="140"/> | <img src="./img_src/animal_data/train/fox/000001.jpg" width="140"/> |
+| <img src="./img_src/bear.jpg" width="140"/> | <img src="./img_src/cat.jpg" width="140"/> | <img src="./img_src/dog.jpg" width="140"/> | <img src="./img_src/fox.jpg" width="140"/> |
 
 > 학습 데이터는 Bing 이미지 크롤링 → YOLOv8-Face로 얼굴 영역 크롭 → 수동 보정의 3단계로 구축됨.
 
