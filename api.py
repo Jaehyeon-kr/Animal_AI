@@ -1,12 +1,12 @@
 import io
+import httpx                              # ← 추가
 import torch
 import torch.nn.functional as F
 import torch.nn as nn
+from pydantic import BaseModel
 from torchvision import models, transforms
 from PIL import Image
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-import httpx
 
 MODEL_PATH = "./animal_predict_model.pth"
 CLASSES    = ["bear", "cat", "dog", "fox"]
@@ -33,8 +33,8 @@ class PredictReq(BaseModel):
     image_url: str
 
 
-@app.post("/predict")
-async def predict(req: PredictReq):
+@app.post("/analyze")
+async def analyze(req: PredictReq):
     try:
         async with httpx.AsyncClient(timeout=10) as client:
             resp = await client.get(req.image_url)
@@ -52,7 +52,10 @@ async def predict(req: PredictReq):
         probs = F.softmax(model(x), dim=1)[0]
 
     return {
-        "similarities": {cls.upper(): round(p.item() * 100, 1) for cls, p in zip(CLASSES, probs)},
+        "similarities": {
+            cls.upper(): round(p.item() * 100, 1)
+            for cls, p in zip(CLASSES, probs)
+        }
     }
 
 
