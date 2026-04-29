@@ -63,16 +63,29 @@ flowchart LR
 
 ```
 Animal_AI/
-├── crawl.py             # Bing 이미지 크롤러
-├── face_crop.py         # YOLOv8-Face 자동 크롭
-├── label.py             # 수동 크롭 GUI (cv2.selectROI)
-├── train.py             # ResNet18 학습
-├── inference.py         # CLI 추론
-├── api.py               # FastAPI 서버
+├── api.py                       # FastAPI 서버
+├── inference.py                 # CLI 추론 (서비스용)
+├── Dockerfile
 ├── requirements.txt
-└── animal_data/
-    ├── train/           # 원본 (Bing 크롤 결과)
-    └── cropped/         # 얼굴만 크롭 (학습용)
+├── README.md
+├── script/                      # 데이터 수집·학습 스크립트
+│   ├── crawl.py                 # Bing 이미지 크롤러
+│   ├── face_crop.py             # YOLOv8-Face 자동 크롭
+│   ├── face_utils.py            # 얼굴 검출 유틸
+│   ├── label.py                 # 수동 크롭 GUI (cv2.selectROI)
+│   ├── train.py                 # ResNet18 학습
+│   └── inference.py             # 학습 검증용 추론 스크립트
+├── model/
+│   └── animal_predict_model.pth # 학습된 가중치
+├── data/
+│   └── animal_data.zip          # 학습 데이터 (압축)
+├── img_src/                     # README용 예시 이미지
+│   ├── bear.jpg
+│   ├── cat.jpg
+│   ├── dog.jpg
+│   └── fox.jpg
+└── docs/
+    └── API.md                   # API 상세 문서
 ```
 
 ### 실행 순서
