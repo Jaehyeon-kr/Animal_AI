@@ -1,6 +1,6 @@
 animal_data/
 test_image/
 Find_Your_Look_Alike_Animal/
-*.pth
 __pycache__/
 *.pyc
+.DS_Store
