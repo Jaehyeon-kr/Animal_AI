@@ -4,8 +4,9 @@ import torch.nn.functional as F
 import torch.nn as nn
 from torchvision import models, transforms
 from PIL import Image
+from face_utils import detect_and_crop_face
 
-MODEL_PATH = "./animal_predict_model.pth"
+MODEL_PATH = "./model/animal_predict_model.pth"
 CLASSES    = ["bear", "cat", "dog", "fox"]
 
 transform = transforms.Compose([
@@ -15,7 +16,12 @@ transform = transforms.Compose([
                          std=[0.229, 0.224, 0.225]),
 ])
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+elif torch.backends.mps.is_available():
+    device = torch.device("mps")
+else:
+    device = torch.device("cpu")
 
 model = models.resnet18(weights=None)
 model.fc = nn.Linear(model.fc.in_features, len(CLASSES))
@@ -26,7 +32,13 @@ model.eval()
 
 def predict(img_path):
     image = Image.open(img_path).convert("RGB")
-    x = transform(image).unsqueeze(0).to(device)
+    face, detected = detect_and_crop_face(image)
+    if detected:
+        print(f"얼굴 검출 ✓  크롭 사이즈: {face.size}")
+    else:
+        print("얼굴 검출 실패 — 원본 이미지로 추론")
+
+    x = transform(face).unsqueeze(0).to(device)
     with torch.no_grad():
         probs = F.softmax(model(x), dim=1)[0]
     pred = probs.argmax().item()

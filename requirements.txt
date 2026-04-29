@@ -1,0 +1,14 @@
+torch
+torchvision
+Pillow
+tqdm
+pandas
+matplotlib
+icrawler
+opencv-python
+ultralytics
+huggingface_hub
+fastapi
+uvicorn
+pydantic
+httpx
