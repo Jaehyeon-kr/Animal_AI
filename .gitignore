@@ -3,3 +3,4 @@ test_image/
 Find_Your_Look_Alike_Animal/
 __pycache__/
 *.pyc
+.DS_Store
