@@ -10,9 +10,13 @@ RUN pip install --no-cache-dir \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 3) 앱 코드 + 모델
+# 3) 앱 코드 + 얼굴 검출 유틸 + 모델
 COPY api.py .
+COPY script/face_utils.py ./script/face_utils.py
 COPY model/animal_predict_model.pth ./model/animal_predict_model.pth
+
+# 4) YOLOv8-Face 가중치 빌드 시점에 미리 다운로드 (cold start 단축)
+RUN python -c "from huggingface_hub import hf_hub_download; hf_hub_download('arnabdhar/YOLOv8-Face-Detection', 'model.pt')"
 
 EXPOSE 8000
 

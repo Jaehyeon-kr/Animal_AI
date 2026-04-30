@@ -1,5 +1,9 @@
 import io
-import httpx                              # ← 추가
+import os
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "script"))
+
+import httpx
 import torch
 import torch.nn.functional as F
 import torch.nn as nn
@@ -7,6 +11,7 @@ from pydantic import BaseModel
 from torchvision import models, transforms
 from PIL import Image
 from fastapi import FastAPI, HTTPException
+from face_utils import detect_and_crop_face
 
 MODEL_PATH = "./model/animal_predict_model.pth"
 CLASSES    = ["bear", "cat", "dog", "fox"]
@@ -22,7 +27,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 model = models.resnet18(weights=None)
 model.fc = nn.Linear(model.fc.in_features, len(CLASSES))
-model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
+model.load_state_dict(torch.load(MODEL_PATH, map_location=device, weights_only=True))
 model = model.to(device)
 model.eval()
 
@@ -47,7 +52,9 @@ async def analyze(req: PredictReq):
     except Exception:
         raise HTTPException(status_code=400, detail="이미지 파일을 열 수 없습니다.")
 
-    x = transform(image).unsqueeze(0).to(device)
+    face, _ = detect_and_crop_face(image)
+
+    x = transform(face).unsqueeze(0).to(device)
     with torch.no_grad():
         probs = F.softmax(model(x), dim=1)[0]
 
