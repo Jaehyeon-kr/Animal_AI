@@ -2,6 +2,17 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
+# 0) OpenCV(cv2)가 요구하는 시스템 라이브러리
+#    ultralytics가 opencv-python을 끌어와서 풀버전 cv2가 쓰임
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1 \
+    libglib2.0-0 \
+    libxcb1 \
+    libsm6 \
+    libxext6 \
+    libxrender1 \
+    && rm -rf /var/lib/apt/lists/*
+
 # 1) CPU-only torch 먼저 설치 (CUDA wheel은 ~2GB라 피해야 함)
 RUN pip install --no-cache-dir \
     torch torchvision --index-url https://download.pytorch.org/whl/cpu
