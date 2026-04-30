@@ -5,7 +5,7 @@ tqdm
 pandas
 matplotlib
 icrawler
-opencv-python
+opencv-python-headless
 ultralytics
 huggingface_hub
 fastapi

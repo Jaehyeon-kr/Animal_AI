@@ -8,7 +8,7 @@ from torchvision import models, transforms
 from PIL import Image
 from fastapi import FastAPI, HTTPException
 
-MODEL_PATH = "./animal_predict_model.pth"
+MODEL_PATH = "./model/animal_predict_model.pth"
 CLASSES    = ["bear", "cat", "dog", "fox"]
 
 transform = transforms.Compose([

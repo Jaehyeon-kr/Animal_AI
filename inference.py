@@ -1,4 +1,7 @@
 import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "script"))
+
 import torch
 import torch.nn.functional as F
 import torch.nn as nn
