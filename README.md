@@ -129,7 +129,7 @@ http://<서버주소>:8000
 
 ## Endpoints
 
-### `POST /predict`
+### `POST /analyze`
 
 이미지 URL을 전달하여 동물상을 예측합니다.
 
@@ -144,7 +144,7 @@ http://<서버주소>:8000
 **Example**
 
 ```bash
-curl -X POST http://localhost:8000/predict \
+curl -X POST http://localhost:8000/analyze \
   -H "Content-Type: application/json" \
   -d '{"image_url": "https://example.com/image.jpg"}'
 ```
@@ -153,7 +153,6 @@ curl -X POST http://localhost:8000/predict \
 
 ```json
 {
-  "face_detected": true,
   "similarities": {
     "CAT": 88.0,
     "DOG": 7.0,
@@ -165,7 +164,6 @@ curl -X POST http://localhost:8000/predict \
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
-| `face_detected` | bool | 얼굴 검출 성공 여부. `false`면 원본 이미지로 fallback |
 | `similarities` | object | 각 클래스별 유사도 (0~100) |
 
 **Response `400 Bad Request`**
